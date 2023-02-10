@@ -1,0 +1,89 @@
+syntax = "v1"
+
+info(
+	title: "office api"
+	desc: "office api"
+	author: "Smallshaxiaoche"
+	email: "2233850112@qq.com"
+	version: "v1.0"
+)
+
+import "base.api"
+
+type OfficeListResp {
+	BaseListInfo
+	PageReq
+	List []Office `json:"list"`
+}
+
+type OfficeSearch {
+	PageReq
+	Department int    `json:",optional" form:"department"` //客服部门
+	TypeApp    int8   `json:"type_app" form:"typeApp"`     //1.微信公众号2.小程序
+	IsUsed     uint8  `json:"is_used" form:"isUsed"`       //1.可用2.不可用
+	Gid        uint   `json:"gid" form:"gid"`              //微信分组ID
+	Appid      string `json:"appid" form:"appid"`          //appid
+	Platform   uint8  `json:"platform" form:"platform"`    //服务商ID
+}
+
+// 授权公众号列表
+type Office {
+	Id               uint   `json:"id"`
+	Classify         int8   `json:"classify"`   //授权资质类型：1=服务商模式，2=个人模式
+	Department       int    `json:"department"` //客服部门
+	TypeApp          int8   `json:"type_app"`   //1.微信公众号2.小程序
+	IsUsed           uint8  `json:"is_used"`    //1.可用2.不可用
+	Gid              uint   `json:"gid"`        //微信分组ID
+	Appid            string `json:"appid"`      //appid
+	Platform         uint8  `json:"platform"`   //服务商ID
+	RefreshToken     string `json:"refresh_token"`
+	Name             string `json:"name"`          //昵称
+	HeadImg          string `json:"head_img"`      //头像
+	Original         string `json:"original"`      //第三方授权的名称
+	ComMainBody      string `json:"com_main_body"` //主体名称
+	Alias            string `json:"alias"`         //微信号
+	Headimg          string `json:"headimg"`       //二微码
+	Status           int8   `json:"status"`        //1.正常2.取消
+	Level            string `json:"level"`
+	Type             int8   `json:"type"` //公众号等级（订阅，是否认证）
+	Token            string `json:"token"`
+	Encodingaeskey   string `json:"encodingaeskey"`
+	AccountId        int    `json:"account_id"`
+	CreateTime       int    `json:"create_time"`
+	UpdateTime       int    `json:"update_time"`
+	FuncInfo         string `json:"func_info"`          //权限集列表
+	Release          uint   `json:"release"`            //发布版本的次数
+	Version          string `json:"version"`            //小程序版本号
+	AuditStatus      int8   `json:"audit_status"`       //0审核成功，1.审核被拒绝2.审核中，3.已撤回
+	IsFrozen         int8   `json:"is_frozen"`          //1不冻结 2 冻结了
+	AuditTime        string `json:"audit_time"`         //审核shi jain
+	DomainStatus     int8   `json:"domain_status"`      //0.未添加1.添加
+	DailyLimit       int    `json:"daily_limit"`        //当日最大生成链接数
+	Used             int    `json:"used"`               //当已经使用链接数
+	Remain           int    `json:"remain"`             //当日剩余链接数
+	RemainTime       int    `json:"remain_time"`        //小程序链接没有可用测试的时间
+	DelectStatus     int8   `json:"delect_status"`      //是否删除1正常2删除
+	ProductIds       string `json:"product_ids"`        //小程序匹配商品
+	H5Ids            string `json:"h5_ids"`             //小程序匹配H5
+	CustomerPhone    string `json:"customer_phone"`     //客服名称
+	CustomerImg      string `json:"customer_img"`       //客服头像
+	ShopStyle        int8   `json:"shop_style"`         //1.枫叶小店样式2.淘积木样式
+	PayPritmplid     string `json:"pay_priTmplId"`      //订阅支付模版参数
+	HomeStyleType    string `json:"home_style_type"`    //小程序首页风格类型：1、2、3
+	WaitPayPritmplid string `json:"wait_pay_priTmplId"` //订阅待支付模板参数
+	ExpressPritmplid string `json:"express_priTmplId"`  //订阅发货模板参数
+	CustomerStatus   int8   `json:"customer_status"`    //1.开启2.关闭
+	TraceExpress     int8   `json:"trace_express"`      //物流组件1.开启2.关闭
+	AfterSalesDays   int16  `json:"after_sales_days"`   //售后服务天数默认15天
+	UploadCode       string `json:"upload_code"`        //私有化
+}
+
+@server(
+	group: office
+)
+
+service office {
+	// Get office | 获小程序列表
+	@handler list
+	post /index (OfficeSearch) returns (OfficeListResp)
+}

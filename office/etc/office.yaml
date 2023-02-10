@@ -1,0 +1,13 @@
+Name: office
+Host: 0.0.0.0
+Port: 8889
+Mysql:
+  DataSource: root:root@tcp(127.0.0.1:3306)/yiniqingshop?charset=utf8mb4&parseTime=true&loc=Asia%2FShanghai
+RedisConf:
+  Host: 127.0.0.1:6379
+  Pass: ""
+  Type: node
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass: ""
+    Type: node
